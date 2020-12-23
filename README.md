@@ -2,7 +2,7 @@
 
 Jump to a location specified by two characters.
 
-A motion [plugin](https://github.com/martanne/vis/wiki/Plugins) for [vis](https://github.com/martanne/vis) inspired by [vim-sneak](https://github.com/justinmk/vim-sneak).
+A minimal motion [plugin](https://github.com/martanne/vis/wiki/Plugins) for [vis](https://github.com/martanne/vis) inspired by [vim-sneak](https://github.com/justinmk/vim-sneak).
 
 ## Usage
 
