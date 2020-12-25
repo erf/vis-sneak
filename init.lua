@@ -32,7 +32,7 @@ local highlight = function(win)
 		return
 	end
 
-	-- styles matches
+	-- style matches in viewport
 	local num_drawn_matches = 0
 	for i, range in ipairs(matches) do
 		if range.start >= viewport.start and range.finish <= viewport.finish then
