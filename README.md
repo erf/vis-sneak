@@ -10,11 +10,11 @@ Type `s{char}{char}` to move to the next char combo.
 
 Type `S{char}{char}` to move back.
 
-You can also type `n` or `N` to find the next or prev match, or append a number to the motion.
+Matches are highlighted until you move outside the matches.
+
+Type `n` or `N` to find the next or prev match, or append a number to the motion.
 
 
 ## Install
 
-- Download and require manually.
-
-- Add `erf/vis-sneak` via [vis-plug](https://github.com/erf/vis-plug)
+Download and require manually, or add `erf/vis-sneak` using [vis-plug](https://github.com/erf/vis-plug).
