@@ -12,28 +12,29 @@ local pattern_iterator = function(content, pattern)
 	end
 end
 
+-- is cursor pos is in one of the matches?
+local cursor_on_match = function(win)
+	local pos = win.selection.pos
+	for _, range in ipairs(matches) do
+		if pos >= range.start and pos <= range.finish then
+			return true
+		end
+	end
+	return false
+end
+
 -- highlihght current matches
 local highlight = function(win)
 
-	--clear if pos is not in one of the matches
-	local pos = win.selection.pos
-	local in_match = false
-	for i, range in ipairs(matches) do
-		if pos >= range.start and pos <= range.finish then
-			in_match = true
-			break
-		end
-	end
-
 	-- clear matches if cursor is outside a match
-	if not in_match then
+	if not cursor_on_match(win) then
 		matches = {}
 		return
 	end
 
 	-- style matches in viewport
 	local viewport = win.viewport
-	for i, range in ipairs(matches) do
+	for _, range in ipairs(matches) do
 		if range.start >= viewport.start and range.finish <= viewport.finish then
 			win:style(win.STYLE_CURSOR, range.start, range.finish)
 		end
