@@ -1,6 +1,7 @@
 local pattern = nil
 local matches = {}
 
+-- iterater for doing find in pattern until nil
 local pattern_iterator = function(content, pattern)
 	local offset = 1
 	return function()
@@ -11,20 +12,12 @@ local pattern_iterator = function(content, pattern)
 	end
 end
 
-local print_matches = function(win)
-	local pos = win.selection.pos
-	vis:message('pos ' .. pos)
-	for i, range in ipairs(matches) do
-		vis:message('i ' .. i .. ' starts ' .. range.start .. ' ends ' .. range.finish)
-	end
-end
-
+-- highlihght current matches
 local highlight = function(win)
 
 	--clear if not in matches
-	local offset = win.viewport.start
+	local viewport = win.viewport
 	local pos = win.selection.pos
-	vis:info('pos ' .. pos .. ' offset ' .. offset)
 	local selection_in_match = false
 	for i, range in ipairs(matches) do
 		if pos >= range.start and pos <= range.finish then
@@ -36,16 +29,20 @@ local highlight = function(win)
 	-- clear matches if cursor is outside a match
 	if not selection_in_match then
 		matches = {}
-		vis:info('clear matches')
 		return
 	end
 
 	-- styles matches
+	local num_drawn_matches = 0
 	for i, range in ipairs(matches) do
-		win:style(win.STYLE_CURSOR, range.start, range.finish)
+		if range.start >= viewport.start and range.finish <= viewport.finish then
+			num_drawn_matches = num_drawn_matches + 1
+			win:style(win.STYLE_CURSOR, range.start, range.finish)
+		end
 	end
 end
 
+-- collect matches (ranges) for pattern in file
 local collect_matches = function()
 	local win = vis.win
 	local file = win.file
@@ -56,10 +53,12 @@ local collect_matches = function()
 	end
 end
 
+-- highlight matches on WIN_HIGHLIGHT
 vis.events.subscribe(vis.events.WIN_HIGHLIGHT, function(win)
 	highlight(win)
 end)
 
+-- create search for two chars and collect matches for highlighting
 local sneak = function(keys, search_char)
 	if #keys < 2 then
 		pattern = nil
@@ -71,10 +70,12 @@ local sneak = function(keys, search_char)
 	return 2
 end
 
+-- sneak forward on 's'
 vis:map(vis.modes.NORMAL, 's', function(keys)
 	return sneak(keys, '/')
 end)
 
+-- sneak backwards on 'S'
 vis:map(vis.modes.NORMAL, 'S', function(keys)
 	return sneak(keys, '?')
 end)
