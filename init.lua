@@ -15,28 +15,26 @@ end
 -- highlihght current matches
 local highlight = function(win)
 
-	--clear if not in matches
-	local viewport = win.viewport
+	--clear if pos is not in one of the matches
 	local pos = win.selection.pos
-	local selection_in_match = false
+	local in_match = false
 	for i, range in ipairs(matches) do
 		if pos >= range.start and pos <= range.finish then
-			selection_in_match = true
+			in_match = true
 			break
 		end
 	end
 
 	-- clear matches if cursor is outside a match
-	if not selection_in_match then
+	if not in_match then
 		matches = {}
 		return
 	end
 
 	-- style matches in viewport
-	local num_drawn_matches = 0
+	local viewport = win.viewport
 	for i, range in ipairs(matches) do
 		if range.start >= viewport.start and range.finish <= viewport.finish then
-			num_drawn_matches = num_drawn_matches + 1
 			win:style(win.STYLE_CURSOR, range.start, range.finish)
 		end
 	end
