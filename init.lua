@@ -23,10 +23,15 @@ local cursor_on_match = function(win)
 	return false
 end
 
+-- check if range is in viewport range
+local range_in_viewport = function(viewport, range)
+	return range.start >= viewport.start and range.finish <= viewport.finish
+end
+
 -- highlihght current matches
 local highlight = function(win)
 
-	-- clear matches if cursor is outside a match
+	-- clear matches if cursor is not on a match
 	if not cursor_on_match(win) then
 		matches = {}
 		return
@@ -35,7 +40,7 @@ local highlight = function(win)
 	-- style matches in viewport
 	local viewport = win.viewport
 	for _, range in ipairs(matches) do
-		if range.start >= viewport.start and range.finish <= viewport.finish then
+		if range_in_viewport(viewport, range) then
 			win:style(win.STYLE_CURSOR, range.start, range.finish)
 		end
 	end
