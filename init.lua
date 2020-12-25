@@ -42,8 +42,7 @@ end
 
 -- collect matches (ranges) for pattern in file
 local collect_matches = function()
-	local win = vis.win
-	local file = win.file
+	local file = vis.win.file
 	local content = file:content(0, file.size)
 	matches = {}
 	for starts, ends in pattern_iterator(content, pattern) do
