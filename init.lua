@@ -25,7 +25,7 @@ end
 
 -- check if range is in viewport range
 local range_in_viewport = function(viewport, range)
-	return range.start >= viewport.start and range.finish <= viewport.finish
+	return range.start >= viewport.bytes.start and range.finish <= viewport.bytes.finish
 end
 
 -- highlihght current matches
@@ -38,9 +38,8 @@ local highlight = function(win)
 	end
 
 	-- style matches in viewport
-	local viewport = win.viewport
 	for _, range in ipairs(matches) do
-		if range_in_viewport(viewport, range) then
+		if range_in_viewport(win.viewport, range) then
 			win:style(win.STYLE_CURSOR, range.start, range.finish)
 		end
 	end
