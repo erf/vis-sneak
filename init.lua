@@ -37,10 +37,11 @@ local highlight = function(win)
 		return
 	end
 
-	-- style matches in viewport
+	-- style matches in viewport (style ids moved to vis.ui.style_ids after vis 0.9)
+	local style = vis.ui.style_ids and vis.ui.style_ids.CURSOR or win.STYLE_CURSOR
 	for _, range in ipairs(matches) do
 		if range_in_viewport(win.viewport, range) then
-			win:style(win.STYLE_CURSOR, range.start, range.finish)
+			win:style(style, range.start, range.finish)
 		end
 	end
 end
