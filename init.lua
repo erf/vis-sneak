@@ -2,10 +2,10 @@ local pattern = nil
 local matches = {}
 
 -- iterater for doing find in pattern until nil
-local pattern_iterator = function(content, pattern)
+local pattern_iterator = function(content, pattern_arg)
 	local offset = 1
 	return function()
-		local starts, ends = string.find(content, pattern, offset)
+		local starts, ends = string.find(content, pattern_arg, offset)
 		if starts == nil then return nil end
 		offset = ends + 1
 		return starts, ends
