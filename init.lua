@@ -62,7 +62,7 @@ vis.events.subscribe(vis.events.WIN_HIGHLIGHT, function(win)
 end)
 
 -- create search for two chars and collect matches for highlighting
-local sneak = function(keys, search_char)
+local sneak = function(search_char, keys)
 	if #keys < 2 then
 		pattern = nil
 		return -1
@@ -75,10 +75,10 @@ end
 
 -- sneak forward on 's'
 vis:map(vis.modes.NORMAL, 's', function(keys)
-	return sneak(keys, '/')
+	return sneak('/', keys)
 end)
 
 -- sneak backwards on 'S'
 vis:map(vis.modes.NORMAL, 'S', function(keys)
-	return sneak(keys, '?')
+	return sneak('?', keys)
 end)
